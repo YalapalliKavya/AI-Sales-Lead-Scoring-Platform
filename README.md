@@ -132,25 +132,25 @@ AI-Sales-Lead-Scoring-Platform/
 ## Screenshots
 
 ### 🔐 Login Page
-<img width="1899" height="892" alt="Screenshot 2026-03-21 093624" src="https://github.com/user-attachments/assets/2e942abb-eee8-41ff-bc7c-a5f24818552d" />
+<img width="1899" height="892" alt="Login" src="https://github.com/user-attachments/assets/c310dc3c-86b7-4fad-9823-f4a8c1eda76b" />
 
 ### 🏠 Home Page
-<img width="1905" height="888" alt="Screenshot 2026-03-21 093656" src="https://github.com/user-attachments/assets/d64f1620-676e-4081-8672-e4d40eb29cb6" />
-<img width="1908" height="893" alt="Screenshot 2026-03-21 094100" src="https://github.com/user-attachments/assets/c3d4d22c-137f-4a37-9b86-7afc829e7332" />
+<img width="1905" height="888" alt="Home_1" src="https://github.com/user-attachments/assets/b08b9bef-4332-40da-b7b4-ac4b89c40a31" />
+<img width="1908" height="893" alt="Home_2" src="https://github.com/user-attachments/assets/4d942a54-a102-4ab6-bf43-be63f0ceac83" />
 
 ### 📊 Admin Dashboard
-<img width="1911" height="889" alt="Screenshot 2026-03-21 093806" src="https://github.com/user-attachments/assets/77879a5d-61af-4c2d-8032-6873a5079aa8" />
-<img width="1913" height="881" alt="Screenshot 2026-03-21 093827" src="https://github.com/user-attachments/assets/decef9e0-fac8-40e0-972e-b593bc1b9034" />
-<img width="1912" height="888" alt="Screenshot 2026-03-21 093846" src="https://github.com/user-attachments/assets/3df734c5-2262-48e8-bef2-02a5ff8614e2" />
+<img width="1911" height="889" alt="Admin_Dashboard_1" src="https://github.com/user-attachments/assets/1bab543f-79d4-4596-a2da-88f02b81de66" />
+<img width="1913" height="881" alt="Admin_dashboard_2" src="https://github.com/user-attachments/assets/287ed089-131a-4f34-a97f-94bd6b643f99" />
+<img width="1912" height="888" alt="Admin_Dashboard_3" src="https://github.com/user-attachments/assets/24973d02-9f30-4cc2-be95-153a4e6701c5" />
 
 ### 📊 Sales Dashboard
-<img width="1904" height="883" alt="Screenshot 2026-03-21 093736" src="https://github.com/user-attachments/assets/6b491dbf-8687-499a-a5c8-52c74f94a654" />
+<img width="1904" height="883" alt="Sales_Dashboard" src="https://github.com/user-attachments/assets/e5e334f6-7089-4a8b-8109-0dbcdc4c2352" />
 
 ### ➕ Add Lead
-<img width="1908" height="889" alt="Screenshot 2026-03-21 093958" src="https://github.com/user-attachments/assets/9a52e29d-c40c-42d0-a968-98544661265d" />
+<img width="1908" height="889" alt="Add_Lead" src="https://github.com/user-attachments/assets/35c00306-ef34-4b9c-a012-8f9422b2efcc" />
 
 ### 📬 Contact Message
-<img width="1905" height="895" alt="Screenshot 2026-03-21 093914" src="https://github.com/user-attachments/assets/46405f66-97c9-421f-a0f4-058081b02cc1" />
+<img width="1905" height="895" alt="Contact_Message" src="https://github.com/user-attachments/assets/146acda7-909a-4869-aab3-eeb7098f037b" />
 
 ##Author
 -Kavya Yalapalli
