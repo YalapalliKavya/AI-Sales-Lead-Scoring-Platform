@@ -1,0 +1,737 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Segoe UI, sans-serif;
+        }
+
+        body{
+            background:#f4f7fb;
+            color:#1f2937;
+        }
+
+        .layout{
+            display:flex;
+            min-height:100vh;
+        }
+
+        .sidebar{
+            width:240px;
+            background:#111827;
+            color:white;
+            padding:24px 18px;
+            flex-shrink:0;
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:35px;
+            font-size:24px;
+            line-height:1.4;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar li{
+            margin:14px 0;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:12px 14px;
+            border-radius:8px;
+            transition:0.3s;
+        }
+
+        .sidebar a:hover{
+            background:#1f2937;
+        }
+
+        .main{
+            flex:1;
+            padding:30px;
+            overflow-x:hidden;
+        }
+
+        .header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:24px;
+        }
+
+        .header h1{
+            font-size:30px;
+        }
+
+        .summary{
+            color:#6b7280;
+            font-size:15px;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(5, 1fr);
+            gap:18px;
+            margin-bottom:26px;
+        }
+
+        .card{
+            background:white;
+            border-radius:14px;
+            padding:22px;
+            box-shadow:0 4px 18px rgba(0,0,0,0.08);
+        }
+
+        .card h3{
+            font-size:15px;
+            color:#6b7280;
+            margin-bottom:10px;
+        }
+
+        .card p{
+            font-size:28px;
+            font-weight:700;
+        }
+
+        .hot-card{ border-left:6px solid #16a34a; }
+        .warm-card{ border-left:6px solid #eab308; }
+        .cold-card{ border-left:6px solid #dc2626; }
+        .avg-card{ border-left:6px solid #2563eb; }
+        .conv-card{ border-left:6px solid #7c3aed; }
+
+        .pipeline-title{
+            margin:10px 0 16px 0;
+            font-size:22px;
+            font-weight:700;
+        }
+
+        .pipeline-cards{
+            display:grid;
+            grid-template-columns:repeat(5, 1fr);
+            gap:18px;
+            margin-bottom:26px;
+        }
+
+        .pipeline-card{
+            background:white;
+            border-radius:14px;
+            padding:20px;
+            box-shadow:0 4px 18px rgba(0,0,0,0.08);
+            text-align:center;
+        }
+
+        .pipeline-card h3{
+            font-size:15px;
+            color:#6b7280;
+            margin-bottom:10px;
+        }
+
+        .pipeline-card p{
+            font-size:28px;
+            font-weight:700;
+        }
+
+        .charts{
+            display:grid;
+            grid-template-columns:1.3fr 1fr;
+            gap:18px;
+            margin-bottom:24px;
+        }
+
+        .chart-box, .top-box, .source-chart-wrap, .table-box{
+            background:white;
+            border-radius:14px;
+            padding:20px;
+            box-shadow:0 4px 18px rgba(0,0,0,0.08);
+        }
+
+        .chart-box h2, .top-box h2, .source-chart-wrap h2, .table-box h2{
+            margin-bottom:16px;
+            font-size:20px;
+        }
+
+        .chart-canvas{
+            width:100% !important;
+            height:300px !important;
+        }
+
+        .source-chart-wrap{
+            margin-bottom:24px;
+            max-width:420px;
+        }
+
+        .source-chart-canvas{
+            width:100% !important;
+            height:220px !important;
+        }
+
+        .extra-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:18px;
+            margin-bottom:24px;
+        }
+
+        .team-box{
+            background:white;
+            border-radius:14px;
+            padding:20px;
+            box-shadow:0 4px 18px rgba(0,0,0,0.08);
+            margin-bottom:24px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th, td{
+            padding:12px;
+            text-align:center;
+            border-bottom:1px solid #e5e7eb;
+            font-size:14px;
+            vertical-align:middle;
+        }
+
+        th{
+            background:#111827;
+            color:white;
+            position:sticky;
+            top:0;
+        }
+
+        .badge{
+            padding:6px 12px;
+            border-radius:999px;
+            color:white;
+            font-size:12px;
+            font-weight:600;
+            display:inline-block;
+        }
+
+        .hot{ background:#16a34a; }
+        .warm{ background:#eab308; color:#111827; }
+        .cold{ background:#dc2626; }
+
+        .crm-badge{
+            padding:6px 10px;
+            border-radius:6px;
+            font-size:12px;
+            font-weight:600;
+            display:inline-block;
+            background:#e5e7eb;
+            color:#111827;
+        }
+
+        .rank{
+            font-weight:700;
+            color:#2563eb;
+        }
+
+        .history-cell{
+            max-width:220px;
+            text-align:left;
+            white-space:normal;
+            word-break:break-word;
+        }
+
+        .empty-text{
+            color:#6b7280;
+            font-size:14px;
+            padding-top:8px;
+        }
+
+        .table-box{
+            background:linear-gradient(135deg,#eef2ff,#f8fafc);
+            border-radius:14px;
+            padding:22px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+            border:1px solid #dbe4f0;
+            width:100%;
+            max-width:100%;
+            overflow:hidden;
+        }
+
+        .table-box h2{
+            margin-bottom:16px;
+            font-size:20px;
+        }
+
+        .search-bar{
+            margin-bottom:14px;
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+
+        .search-bar input, .search-bar select{
+            padding:10px 12px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            font-size:14px;
+            background:white;
+        }
+
+        .search-bar input{
+            width:260px;
+        }
+
+        .table-scroll{
+            width:100%;
+            max-width:100%;
+            overflow-x:auto;
+            overflow-y:hidden;
+            background:white;
+            border:1px solid #e5e7eb;
+            border-radius:12px;
+        }
+
+        .table-scroll::-webkit-scrollbar{
+            height:10px;
+        }
+
+        .table-scroll::-webkit-scrollbar-thumb{
+            background:#cbd5e1;
+            border-radius:999px;
+        }
+
+        #leadTable{
+            min-width:1350px;
+            width:max-content;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        #leadTable tr:nth-child(even) td,
+        #salesUserTable tr:nth-child(even) td{
+            background:#f9fafb;
+        }
+
+        #leadTable tr:hover td,
+        #salesUserTable tr:hover td{
+            background:#eef2ff;
+        }
+
+        @media (max-width: 1300px){
+            .cards{
+                grid-template-columns:repeat(3,1fr);
+            }
+
+            .pipeline-cards{
+                grid-template-columns:repeat(3,1fr);
+            }
+        }
+
+        @media (max-width: 1100px){
+            .charts,
+            .extra-grid{
+                grid-template-columns:1fr;
+            }
+
+            .source-chart-wrap{
+                max-width:100%;
+            }
+        }
+
+        @media (max-width: 768px){
+            .layout{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                width:100%;
+            }
+
+            .cards,
+            .pipeline-cards{
+                grid-template-columns:1fr;
+            }
+
+            .main{
+                padding:18px;
+            }
+
+            .search-bar input{
+                width:100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>AI Sales Lead Scoring Platform</h2>
+        <ul>
+            <li><a href="{% url 'admin_dashboard' %}">CRM Analytics Dashboard</a></li>
+            <li><a href="{% url 'create_sales_user' %}">Add Sales User</a></li>
+            <li><a href="{% url 'contact_messages' %}">Contact Messages</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+
+        <div class="header">
+            <div>
+                <h1>CRM Analytics Dashboard</h1>
+                <p class="summary">Track lead quality, conversion analytics, source performance, and sales performance in one place.</p>
+            </div>
+        </div>
+
+        <div class="cards">
+            <div class="card hot-card">
+                <h3>Hot Leads</h3>
+                <p>{{ high|default:0 }}</p>
+            </div>
+
+            <div class="card warm-card">
+                <h3>Warm Leads</h3>
+                <p>{{ medium|default:0 }}</p>
+            </div>
+
+            <div class="card cold-card">
+                <h3>Cold Leads</h3>
+                <p>{{ low|default:0 }}</p>
+            </div>
+
+            <div class="card avg-card">
+                <h3>Average Lead Score</h3>
+                <p>{{ avg_score|default:0 }}</p>
+            </div>
+
+            <div class="card conv-card">
+                <h3>Conversion Rate</h3>
+                <p>{{ conversion_rate|default:0 }}%</p>
+            </div>
+        </div>
+
+        <h2 class="pipeline-title">Sales Pipeline</h2>
+        <div class="pipeline-cards">
+            <div class="pipeline-card">
+                <h3>New</h3>
+                <p>{{ new_leads|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Contacted</h3>
+                <p>{{ contacted|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Qualified</h3>
+                <p>{{ qualified|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Converted</h3>
+                <p>{{ converted|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Lost</h3>
+                <p>{{ lost|default:0 }}</p>
+            </div>
+        </div>
+
+        <div class="charts">
+            <div class="chart-box">
+                <h2>Lead Scoring Distribution</h2>
+                <canvas id="barChart" class="chart-canvas"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <h2>AI Lead Mix</h2>
+                <canvas id="pieChart" class="chart-canvas"></canvas>
+            </div>
+        </div>
+
+        <div class="extra-grid">
+            <div class="top-box">
+                <h2>Top AI Leads</h2>
+                <table>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Lead Score</th>
+                    </tr>
+
+                    {% for lead in top_leads %}
+                    <tr>
+                        <td class="rank">#{{ forloop.counter }}</td>
+                        <td>{{ lead.name }}</td>
+                        <td>{{ lead.email }}</td>
+                        <td>{{ lead.lead_score }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No top leads available</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="top-box">
+                <h2>Top Converting Lead Sources</h2>
+                <table>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Source</th>
+                        <th>Converted Leads</th>
+                    </tr>
+
+                    {% for item in top_converting_sources %}
+                    <tr>
+                        <td class="rank">#{{ forloop.counter }}</td>
+                        <td>{{ item.source|default:"Unknown" }}</td>
+                        <td>{{ item.total }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No converted source data available</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="team-box">
+            <h2>Sales User Performance</h2>
+            <div class="table-scroll">
+                <table id="salesUserTable">
+                    <tr>
+                        <th>Sales User</th>
+                        <th>Total Leads</th>
+                        <th>Hot Leads</th>
+                        <th>Warm Leads</th>
+                        <th>Cold Leads</th>
+                        <th>Converted</th>
+                        <th>Average Score</th>
+                    </tr>
+
+                    {% for user in sales_users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.total_leads|default:0 }}</td>
+                        <td>{{ user.hot_leads|default:0 }}</td>
+                        <td>{{ user.warm_leads|default:0 }}</td>
+                        <td>{{ user.cold_leads|default:0 }}</td>
+                        <td>{{ user.converted_leads|default:0 }}</td>
+                        <td>{{ user.avg_user_score|default:0|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">No sales users found</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="source-chart-wrap">
+            <h2>Lead Source Analytics</h2>
+            <canvas id="sourceChart" class="source-chart-canvas"></canvas>
+            {% if not source_data %}
+                <p class="empty-text">No source data available.</p>
+            {% endif %}
+        </div>
+
+        <div class="table-box">
+            <h2>All Leads</h2>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by name, email, company, source...">
+                <select id="statusFilter">
+                    <option value="">All AI Status</option>
+                    <option value="Hot">Hot</option>
+                    <option value="Warm">Warm</option>
+                    <option value="Cold">Cold</option>
+                </select>
+            </div>
+
+            <div class="table-scroll">
+                <table id="leadTable">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Company</th>
+                        <th>Assigned To</th>
+                        <th>Source</th>
+                        <th>Industry</th>
+                        <th>Budget Range</th>
+                        <th>Interaction</th>
+                        <th>Interaction History</th>
+                        <th>Score</th>
+                        <th>Probability</th>
+                        <th>AI Status</th>
+                        <th>CRM Status</th>
+                    </tr>
+
+                    {% for lead in leads %}
+                    <tr>
+                        <td>{{ lead.name }}</td>
+                        <td>{{ lead.email }}</td>
+                        <td>{{ lead.company }}</td>
+                        <td>
+                            {% if lead.assigned_to %}
+                                {{ lead.assigned_to.username }}
+                            {% else %}
+                                Unassigned
+                            {% endif %}
+                        </td>
+                        <td>{{ lead.source }}</td>
+                        <td>{{ lead.industry }}</td>
+                        <td>{{ lead.budget }}</td>
+                        <td>{{ lead.interaction_score }}</td>
+                        <td class="history-cell">{{ lead.interaction_history }}</td>
+                        <td>{{ lead.lead_score }}</td>
+                        <td>{{ lead.conversion_probability|floatformat:2 }}</td>
+                        <td>
+                            {% if lead.status == "Hot" %}
+                                <span class="badge hot">Hot</span>
+                            {% elif lead.status == "Warm" %}
+                                <span class="badge warm">Warm</span>
+                            {% else %}
+                                <span class="badge cold">Cold</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="crm-badge">{{ lead.crm_status }}</span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="13">No leads found</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const hot = Number("{{ high|default:0 }}");
+    const warm = Number("{{ medium|default:0 }}");
+    const cold = Number("{{ low|default:0 }}");
+
+    const barCanvas = document.getElementById("barChart");
+    if (barCanvas) {
+        new Chart(barCanvas, {
+            type: "bar",
+            data: {
+                labels: ["Hot Leads", "Warm Leads", "Cold Leads"],
+                datasets: [{
+                    label: "Lead Count",
+                    data: [hot, warm, cold],
+                    backgroundColor: ["#16a34a", "#eab308", "#dc2626"],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+
+    const pieCanvas = document.getElementById("pieChart");
+    if (pieCanvas) {
+        new Chart(pieCanvas, {
+            type: "pie",
+            data: {
+                labels: ["Hot", "Warm", "Cold"],
+                datasets: [{
+                    data: [hot, warm, cold],
+                    backgroundColor: ["#16a34a", "#eab308", "#dc2626"]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    const sourceLabels = [
+        {% for item in source_data %}
+            "{{ item.source|default:'Unknown'|escapejs }}",
+        {% endfor %}
+    ];
+
+    const sourceCounts = [
+        {% for item in source_data %}
+            {{ item.total|default:0 }},
+        {% endfor %}
+    ];
+
+    const sourceCanvas = document.getElementById("sourceChart");
+    if (sourceCanvas && sourceLabels.length > 0) {
+        new Chart(sourceCanvas, {
+            type: "pie",
+            data: {
+                labels: sourceLabels,
+                datasets: [{
+                    data: sourceCounts,
+                    backgroundColor: ["#2563eb", "#16a34a", "#eab308", "#dc2626", "#9333ea", "#0ea5e9"]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const tableRows = document.querySelectorAll("#leadTable tr");
+
+    function filterTable() {
+        const searchValue = searchInput.value.toLowerCase();
+        const statusValue = statusFilter.value.toLowerCase();
+
+        tableRows.forEach((row, index) => {
+            if (index === 0) return;
+
+            const rowText = row.innerText.toLowerCase();
+            const rowStatusCell = row.cells[11] ? row.cells[11].innerText.toLowerCase() : "";
+
+            const matchesSearch = rowText.includes(searchValue);
+            const matchesStatus = statusValue === "" || rowStatusCell.includes(statusValue);
+
+            row.style.display = (matchesSearch && matchesStatus) ? "" : "none";
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("keyup", filterTable);
+    }
+
+    if (statusFilter) {
+        statusFilter.addEventListener("change", filterTable);
+    }
+</script>
+
+</body>
+</html>

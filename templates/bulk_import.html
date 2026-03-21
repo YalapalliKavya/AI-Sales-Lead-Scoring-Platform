@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Import | AI Sales Lead Scoring Platform</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Segoe UI", sans-serif;
+        }
+
+        body{
+            background:linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+            color:#1f2937;
+        }
+
+        .layout{
+            display:flex;
+            min-height:100vh;
+        }
+
+        .sidebar{
+            width:250px;
+            background:#0f172a;
+            color:white;
+            padding:28px 18px;
+            flex-shrink:0;
+            box-shadow:4px 0 18px rgba(0,0,0,0.08);
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:34px;
+            font-size:22px;
+            line-height:1.5;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar li{
+            margin:12px 0;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:12px 14px;
+            border-radius:10px;
+            transition:0.3s ease;
+            font-size:14px;
+        }
+
+        .sidebar a:hover{
+            background:#1e293b;
+        }
+
+        .main{
+            flex:1;
+            padding:30px;
+        }
+
+        .topbar{
+            background:white;
+            padding:24px;
+            border-radius:18px;
+            box-shadow:0 8px 24px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+            margin-bottom:24px;
+        }
+
+        .topbar h1{
+            font-size:30px;
+            color:#0f172a;
+            margin-bottom:6px;
+        }
+
+        .topbar p{
+            color:#64748b;
+            font-size:15px;
+        }
+
+        .upload-card{
+            background:white;
+            border-radius:20px;
+            padding:28px;
+            box-shadow:0 10px 26px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+            margin-bottom:22px;
+        }
+
+        .upload-card h2{
+            font-size:24px;
+            color:#0f172a;
+            margin-bottom:14px;
+        }
+
+        .upload-card p{
+            color:#64748b;
+            font-size:14px;
+            line-height:1.8;
+            margin-bottom:18px;
+        }
+
+        .file-box{
+            background:#f8fafc;
+            border:2px dashed #cbd5e1;
+            border-radius:14px;
+            padding:24px;
+            text-align:center;
+            margin-bottom:18px;
+        }
+
+        .file-box input[type="file"]{
+            font-size:14px;
+        }
+
+        .button-row{
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            padding:13px 18px;
+            border:none;
+            border-radius:12px;
+            font-size:14px;
+            font-weight:700;
+            text-decoration:none;
+            cursor:pointer;
+            transition:0.3s ease;
+        }
+
+        .btn-primary{
+            background:#2563eb;
+            color:white;
+        }
+
+        .btn-primary:hover{
+            background:#1d4ed8;
+        }
+
+        .btn-secondary{
+            background:#e5e7eb;
+            color:#111827;
+        }
+
+        .btn-secondary:hover{
+            background:#d1d5db;
+        }
+
+        .message-box,
+        .error-box{
+            padding:14px 16px;
+            border-radius:12px;
+            margin-bottom:18px;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        .message-box{
+            background:#ecfdf5;
+            color:#166534;
+            border:1px solid #bbf7d0;
+        }
+
+        .error-box{
+            background:#fef2f2;
+            color:#b91c1c;
+            border:1px solid #fecaca;
+        }
+
+        .stats-grid{
+            display:grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap:18px;
+        }
+
+        .stat-card{
+            background:white;
+            border-radius:18px;
+            padding:22px;
+            box-shadow:0 8px 22px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+        }
+
+        .stat-card h3{
+            font-size:14px;
+            color:#64748b;
+            margin-bottom:10px;
+        }
+
+        .stat-card p{
+            font-size:28px;
+            font-weight:700;
+            color:#0f172a;
+        }
+
+        .hot-card{ border-top:5px solid #16a34a; }
+        .warm-card{ border-top:5px solid #eab308; }
+        .cold-card{ border-top:5px solid #dc2626; }
+
+        @media (max-width:900px){
+            .layout{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                width:100%;
+            }
+
+            .stats-grid{
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media (max-width:650px){
+            .main{
+                padding:18px;
+            }
+
+            .topbar h1{
+                font-size:24px;
+            }
+
+            .upload-card{
+                padding:20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar">
+        <h2>AI Sales Lead Scoring Platform</h2>
+        <ul>
+            <li><a href="{% url 'register' %}">Add Lead</a></li>
+            <li><a href="{% url 'sales_dashboard' %}">Sales Dashboard</a></li>
+            <li><a href="{% url 'bulk_import_leads' %}">Bulk Import</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Bulk Import Leads</h1>
+            <p>Upload a CSV file to import multiple leads and generate AI-based lead scoring automatically.</p>
+        </div>
+
+        <div class="upload-card">
+            <h2>Upload CSV File</h2>
+            <p>
+                Your CSV should contain columns like name, email, company, phone, source,
+                industry, interaction_history, company_size, budget, and interaction_score.
+            </p>
+
+            {% if message %}
+                <div class="message-box">{{ message }}</div>
+            {% endif %}
+
+            {% if error %}
+                <div class="error-box">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="file-box">
+                    <input type="file" name="csv_file" accept=".csv" required>
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="btn btn-primary">Import Leads</button>
+                    <a href="{% url 'sales_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card hot-card">
+                <h3>Hot Leads Imported</h3>
+                <p>{{ hot|default:0 }}</p>
+            </div>
+
+            <div class="stat-card warm-card">
+                <h3>Warm Leads Imported</h3>
+                <p>{{ warm|default:0 }}</p>
+            </div>
+
+            <div class="stat-card cold-card">
+                <h3>Cold Leads Imported</h3>
+                <p>{{ cold|default:0 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

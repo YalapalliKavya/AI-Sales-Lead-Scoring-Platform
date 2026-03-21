@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Messages | AI Sales Lead Scoring Platform</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Segoe UI", sans-serif;
+        }
+
+        body{
+            background:linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+            color:#1f2937;
+        }
+
+        .layout{
+            display:flex;
+            min-height:100vh;
+        }
+
+        .sidebar{
+            width:260px;
+            background:linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            color:white;
+            padding:28px 18px;
+            flex-shrink:0;
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:34px;
+            font-size:22px;
+            line-height:1.5;
+            font-weight:700;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar li{
+            margin:12px 0;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:12px 14px;
+            border-radius:12px;
+            transition:0.3s ease;
+            font-size:14px;
+            font-weight:500;
+        }
+
+        .sidebar a:hover{
+            background:rgba(255,255,255,0.08);
+        }
+
+        .main{
+            flex:1;
+            padding:30px;
+        }
+
+        .header{
+            background:white;
+            border:1px solid #e5e7eb;
+            border-radius:20px;
+            padding:24px 26px;
+            box-shadow:0 10px 26px rgba(15,23,42,0.08);
+            margin-bottom:24px;
+        }
+
+        .header h1{
+            font-size:30px;
+            color:#0f172a;
+            margin-bottom:6px;
+        }
+
+        .header p{
+            color:#64748b;
+            font-size:15px;
+        }
+
+        .table-box{
+            background:white;
+            border-radius:20px;
+            padding:22px;
+            box-shadow:0 10px 26px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+        }
+
+        .table-scroll{
+            overflow-x:auto;
+            border:1px solid #e5e7eb;
+            border-radius:14px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            min-width:900px;
+        }
+
+        th, td{
+            padding:14px 12px;
+            text-align:center;
+            border-bottom:1px solid #e5e7eb;
+            font-size:14px;
+            vertical-align:top;
+        }
+
+        th{
+            background:#0f172a;
+            color:white;
+            font-weight:600;
+        }
+
+        tr:nth-child(even) td{
+            background:#f8fafc;
+        }
+
+        tr:hover td{
+            background:#eef2ff;
+        }
+
+        .msg-cell{
+            text-align:left;
+            max-width:320px;
+            word-break:break-word;
+            line-height:1.7;
+        }
+
+        @media (max-width:800px){
+            .layout{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                width:100%;
+            }
+
+            .main{
+                padding:18px;
+            }
+
+            .header h1{
+                font-size:24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar">
+        <h2>AI Sales Lead Scoring Platform</h2>
+        <ul>
+            <li><a href="{% url 'admin_dashboard' %}">CRM Analytics Dashboard</a></li>
+            <li><a href="{% url 'create_sales_user' %}">Add Sales User</a></li>
+            <li><a href="{% url 'contact_messages' %}">Contact Messages</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="header">
+            <h1>Contact Messages</h1>
+            <p>View messages submitted from the contact page.</p>
+        </div>
+
+        <div class="table-box">
+            <div class="table-scroll">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+
+                    {% for item in messages_list %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.email }}</td>
+                        <td class="msg-cell">{{ item.message }}</td>
+                        <td>{{ item.created_at }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No contact messages found</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

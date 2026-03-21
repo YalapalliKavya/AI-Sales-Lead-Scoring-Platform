@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dashboard | AI Sales Lead Scoring Platform</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Segoe UI", sans-serif;
+        }
+
+        body{
+            background:linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+            color:#1f2937;
+        }
+
+        .layout{
+            display:flex;
+            min-height:100vh;
+        }
+
+        .sidebar{
+            width:250px;
+            background:#0f172a;
+            color:white;
+            padding:28px 18px;
+            flex-shrink:0;
+            box-shadow:4px 0 18px rgba(0,0,0,0.08);
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:34px;
+            font-size:22px;
+            line-height:1.5;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar li{
+            margin:12px 0;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:12px 14px;
+            border-radius:10px;
+            transition:0.3s ease;
+            font-size:14px;
+        }
+
+        .sidebar a:hover{
+            background:#1e293b;
+        }
+
+        .main{
+            flex:1;
+            padding:30px;
+            overflow-x:hidden;
+        }
+
+        .topbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:20px;
+            margin-bottom:24px;
+            background:white;
+            padding:24px;
+            border-radius:18px;
+            box-shadow:0 8px 24px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+        }
+
+        .topbar h1{
+            font-size:30px;
+            color:#0f172a;
+            margin-bottom:6px;
+        }
+
+        .topbar p{
+            color:#64748b;
+            font-size:15px;
+        }
+
+        .logout-btn{
+            text-decoration:none;
+            background:#dc2626;
+            color:white;
+            padding:11px 16px;
+            border-radius:10px;
+            font-weight:600;
+            transition:0.3s;
+            white-space:nowrap;
+        }
+
+        .logout-btn:hover{
+            background:#b91c1c;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(5, 1fr);
+            gap:18px;
+            margin-bottom:26px;
+        }
+
+        .card{
+            background:white;
+            border-radius:18px;
+            padding:22px;
+            box-shadow:0 8px 22px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+        }
+
+        .card h3{
+            font-size:14px;
+            color:#64748b;
+            margin-bottom:10px;
+        }
+
+        .card p{
+            font-size:28px;
+            font-weight:700;
+            color:#0f172a;
+        }
+
+        .hot-card{ border-top:5px solid #16a34a; }
+        .warm-card{ border-top:5px solid #eab308; }
+        .cold-card{ border-top:5px solid #dc2626; }
+        .avg-card{ border-top:5px solid #2563eb; }
+        .conv-card{ border-top:5px solid #7c3aed; }
+
+        .pipeline-title{
+            font-size:24px;
+            font-weight:700;
+            color:#0f172a;
+            margin:10px 0 16px;
+        }
+
+        .pipeline-cards{
+            display:grid;
+            grid-template-columns:repeat(5, 1fr);
+            gap:18px;
+            margin-bottom:26px;
+        }
+
+        .pipeline-card{
+            background:white;
+            border-radius:18px;
+            padding:20px;
+            text-align:center;
+            box-shadow:0 8px 22px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+        }
+
+        .pipeline-card h3{
+            font-size:14px;
+            color:#64748b;
+            margin-bottom:10px;
+        }
+
+        .pipeline-card p{
+            font-size:26px;
+            font-weight:700;
+            color:#0f172a;
+        }
+
+        .table-box{
+            background:white;
+            border-radius:20px;
+            padding:22px;
+            box-shadow:0 10px 26px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+        }
+
+        .table-box h2{
+            font-size:24px;
+            color:#0f172a;
+            margin-bottom:18px;
+        }
+
+        .table-scroll{
+            width:100%;
+            overflow-x:auto;
+            border:1px solid #e5e7eb;
+            border-radius:14px;
+            background:white;
+        }
+
+        table{
+            width:100%;
+            min-width:950px;
+            border-collapse:collapse;
+        }
+
+        th, td{
+            padding:14px 12px;
+            text-align:center;
+            border-bottom:1px solid #e5e7eb;
+            font-size:14px;
+        }
+
+        th{
+            background:#0f172a;
+            color:white;
+            font-weight:600;
+        }
+
+        tr:nth-child(even) td{
+            background:#f8fafc;
+        }
+
+        tr:hover td{
+            background:#eef2ff;
+        }
+
+        .badge{
+            padding:6px 12px;
+            border-radius:999px;
+            color:white;
+            font-size:12px;
+            font-weight:700;
+            display:inline-block;
+            min-width:70px;
+        }
+
+        .hot{ background:#16a34a; }
+        .warm{ background:#eab308; color:#111827; }
+        .cold{ background:#dc2626; }
+
+        .crm-badge{
+            padding:7px 10px;
+            border-radius:8px;
+            font-size:12px;
+            font-weight:600;
+            background:#e5e7eb;
+            color:#111827;
+            display:inline-block;
+        }
+
+        .action-links{
+            display:flex;
+            justify-content:center;
+            gap:8px;
+            flex-wrap:wrap;
+        }
+
+        .action-links a{
+            text-decoration:none;
+            font-size:13px;
+            font-weight:600;
+            padding:7px 12px;
+            border-radius:8px;
+            transition:0.2s;
+        }
+
+        .edit-link{
+            color:white;
+            background:#2563eb;
+        }
+
+        .edit-link:hover{
+            background:#1d4ed8;
+        }
+
+        .delete-link{
+            color:white;
+            background:#dc2626;
+        }
+
+        .delete-link:hover{
+            background:#b91c1c;
+        }
+
+        @media (max-width:1300px){
+            .cards,
+            .pipeline-cards{
+                grid-template-columns:repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width:900px){
+            .layout{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                width:100%;
+            }
+
+            .cards,
+            .pipeline-cards{
+                grid-template-columns:1fr 1fr;
+            }
+
+            .topbar{
+                flex-direction:column;
+                align-items:flex-start;
+            }
+        }
+
+        @media (max-width:650px){
+            .main{
+                padding:18px;
+            }
+
+            .cards,
+            .pipeline-cards{
+                grid-template-columns:1fr;
+            }
+
+            .topbar h1{
+                font-size:24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>AI Sales Lead Scoring Platform</h2>
+        <ul>
+            <li><a href="{% url 'register' %}">Add Lead</a></li>
+            <li><a href="{% url 'sales_dashboard' %}">Sales Dashboard</a></li>
+            <li><a href="{% url 'bulk_import_leads' %}">Bulk Import</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+
+        <div class="topbar">
+            <div>
+                <h1>Sales Dashboard</h1>
+                <p>Manage your assigned leads, monitor lead quality, and update CRM status efficiently.</p>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        </div>
+
+        <div class="cards">
+            <div class="card hot-card">
+                <h3>Hot Leads</h3>
+                <p>{{ high|default:0 }}</p>
+            </div>
+
+            <div class="card warm-card">
+                <h3>Warm Leads</h3>
+                <p>{{ medium|default:0 }}</p>
+            </div>
+
+            <div class="card cold-card">
+                <h3>Cold Leads</h3>
+                <p>{{ low|default:0 }}</p>
+            </div>
+
+            <div class="card avg-card">
+                <h3>Average Lead Score</h3>
+                <p>{{ avg_score|default:0 }}</p>
+            </div>
+
+            <div class="card conv-card">
+                <h3>Conversion Rate</h3>
+                <p>{{ conversion_rate|default:0 }}%</p>
+            </div>
+        </div>
+
+        <h2 class="pipeline-title">Sales Pipeline</h2>
+
+        <div class="pipeline-cards">
+            <div class="pipeline-card">
+                <h3>New</h3>
+                <p>{{ new_leads|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Contacted</h3>
+                <p>{{ contacted|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Qualified</h3>
+                <p>{{ qualified|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Converted</h3>
+                <p>{{ converted|default:0 }}</p>
+            </div>
+
+            <div class="pipeline-card">
+                <h3>Lost</h3>
+                <p>{{ lost|default:0 }}</p>
+            </div>
+        </div>
+
+        <div class="table-box">
+            <h2>My Leads</h2>
+
+            <div class="table-scroll">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Company</th>
+                        <th>Budget</th>
+                        <th>Score</th>
+                        <th>AI Status</th>
+                        <th>CRM Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                    {% for lead in leads %}
+                    <tr>
+                        <td>{{ lead.name }}</td>
+                        <td>{{ lead.email }}</td>
+                        <td>{{ lead.company }}</td>
+                        <td>{{ lead.budget }}</td>
+                        <td>{{ lead.lead_score }}</td>
+                        <td>
+                            {% if lead.status == "Hot" %}
+                                <span class="badge hot">Hot</span>
+                            {% elif lead.status == "Warm" %}
+                                <span class="badge warm">Warm</span>
+                            {% else %}
+                                <span class="badge cold">Cold</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="crm-badge">{{ lead.crm_status }}</span>
+                        </td>
+                        <td>
+                            <div class="action-links">
+                                <a class="edit-link" href="{% url 'edit_lead' lead.id %}">Edit</a>
+                                <a class="delete-link" href="{% url 'delete_lead' lead.id %}" onclick="return confirm('Delete this lead?')">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8">No leads found</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

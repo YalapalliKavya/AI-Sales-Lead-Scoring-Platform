@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | AI Sales Lead Scoring Platform</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", sans-serif;
+}
+
+body{
+    background:linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+    color:#1f2937;
+}
+
+.navbar{
+    background:#0f172a;
+    color:white;
+    padding:18px 48px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 18px rgba(0,0,0,0.08);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:700;
+}
+
+.nav-links{
+    display:flex;
+    gap:14px;
+    align-items:center;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    padding:8px 14px;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.login-btn{
+    background:#2563eb;
+    font-weight:600;
+}
+
+.container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:60px 48px;
+}
+
+.hero{
+    background:white;
+    border-radius:24px;
+    padding:40px;
+    box-shadow:0 14px 36px rgba(15,23,42,0.08);
+    border:1px solid #e5e7eb;
+    margin-bottom:34px;
+}
+
+.hero h1{
+    font-size:40px;
+    color:#0f172a;
+    margin-bottom:16px;
+}
+
+.hero p{
+    color:#64748b;
+    font-size:16px;
+    line-height:1.9;
+    max-width:950px;
+}
+
+.section{
+    margin-top:34px;
+}
+
+.section h2{
+    font-size:28px;
+    color:#0f172a;
+    margin-bottom:14px;
+}
+
+.section p{
+    color:#64748b;
+    line-height:1.9;
+    font-size:15px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+    margin-top:24px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 8px 22px rgba(15,23,42,0.08);
+    border:1px solid #e5e7eb;
+}
+
+.card h3{
+    font-size:20px;
+    color:#0f172a;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#64748b;
+    line-height:1.8;
+    font-size:15px;
+}
+
+.footer{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:26px 20px;
+    margin-top:30px;
+}
+
+.footer p{
+    color:rgba(255,255,255,0.82);
+    font-size:14px;
+    line-height:1.7;
+}
+
+@media(max-width:900px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+    .navbar{
+        padding:16px 20px;
+        flex-direction:column;
+        gap:12px;
+    }
+
+    .container{
+        padding:40px 20px;
+    }
+
+    .hero{
+        padding:28px 20px;
+    }
+
+    .hero h1{
+        font-size:32px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">AI Sales Lead Scoring Platform</div>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="{% url 'login' %}" class="login-btn">Login</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="hero">
+        <h1>About the Platform</h1>
+        <p>
+            The AI Sales Lead Scoring Platform is an enterprise-level system designed to help organizations
+            prioritize potential customers by predicting which leads are most likely to convert into paying clients.
+            It combines machine learning with CRM-style workflows to improve sales efficiency, reduce manual effort,
+            and support data-driven decision-making.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Our Mission</h2>
+        <p>
+            Our mission is to help sales teams identify the right opportunities at the right time by using intelligent
+            lead scoring, centralized lead management, and clear analytics dashboards.
+        </p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>AI Lead Scoring</h3>
+            <p>
+                Predict lead conversion probability using machine learning models such as Logistic Regression and XGBoost.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Multi-User CRM</h3>
+            <p>
+                Support admins and multiple sales users with role-based access, lead assignment, and user-specific dashboards.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Analytics Dashboard</h3>
+            <p>
+                Monitor lead quality, conversion rate, source analytics, and sales pipeline performance in one place.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Technology Stack</h2>
+        <p>
+            The platform is built using Django for backend development, HTML/CSS/JavaScript for frontend,
+            MySQL for database management, and machine learning models for predictive lead analysis.
+        </p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2026 AI Sales Lead Scoring Platform | Built with Django, Machine Learning, and CRM Analytics</p>
+</div>
+
+</body>
+</html>

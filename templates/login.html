@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AI Sales Lead Scoring Platform</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Segoe UI", sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+            display:flex;
+            flex-direction:column;
+            color:#1f2937;
+        }
+
+        .navbar{
+            background:#0f172a;
+            color:white;
+            padding:18px 48px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 4px 18px rgba(0,0,0,0.08);
+        }
+
+        .logo{
+            font-size:24px;
+            font-weight:700;
+        }
+
+        .nav-links{
+            display:flex;
+            gap:14px;
+            align-items:center;
+        }
+
+        .nav-links a{
+            color:white;
+            text-decoration:none;
+            font-size:14px;
+            padding:8px 14px;
+            border-radius:8px;
+            transition:0.3s;
+        }
+
+        .nav-links a:hover{
+            background:rgba(255,255,255,0.08);
+        }
+
+        .page-wrap{
+            flex:1;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:30px 24px;
+        }
+
+        .login-wrapper{
+            width:100%;
+            max-width:1080px;
+            display:grid;
+            grid-template-columns:1.05fr 0.95fr;
+            background:#ffffff;
+            border-radius:24px;
+            overflow:hidden;
+            box-shadow:0 20px 60px rgba(15,23,42,0.12);
+            border:1px solid #e5e7eb;
+        }
+
+        .login-left{
+            background:linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color:white;
+            padding:54px 48px;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+        }
+
+        .brand-badge{
+            display:inline-block;
+            padding:8px 14px;
+            border-radius:999px;
+            background:rgba(255,255,255,0.12);
+            border:1px solid rgba(255,255,255,0.18);
+            font-size:12px;
+            letter-spacing:0.4px;
+            margin-bottom:22px;
+        }
+
+        .login-left h1{
+            font-size:38px;
+            line-height:1.2;
+            margin-bottom:18px;
+            font-weight:700;
+        }
+
+        .login-left p{
+            font-size:15px;
+            line-height:1.8;
+            color:rgba(255,255,255,0.86);
+            max-width:470px;
+        }
+
+        .feature-list{
+            margin-top:34px;
+            display:grid;
+            gap:14px;
+        }
+
+        .feature-item{
+            background:rgba(255,255,255,0.08);
+            border:1px solid rgba(255,255,255,0.12);
+            border-radius:14px;
+            padding:14px 16px;
+        }
+
+        .feature-item h3{
+            font-size:15px;
+            margin-bottom:4px;
+            font-weight:600;
+        }
+
+        .feature-item p{
+            font-size:13px;
+            color:rgba(255,255,255,0.78);
+            line-height:1.6;
+        }
+
+        .login-left-footer{
+            font-size:13px;
+            color:rgba(255,255,255,0.72);
+            margin-top:30px;
+        }
+
+        .login-right{
+            padding:54px 46px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#ffffff;
+        }
+
+        .form-box{
+            width:100%;
+            max-width:390px;
+        }
+
+        .form-top{
+            margin-bottom:26px;
+        }
+
+        .form-top h2{
+            font-size:30px;
+            color:#111827;
+            margin-bottom:8px;
+        }
+
+        .form-top p{
+            font-size:14px;
+            color:#6b7280;
+            line-height:1.6;
+        }
+
+        .error{
+            background:#fef2f2;
+            color:#b91c1c;
+            border:1px solid #fecaca;
+            padding:12px 14px;
+            border-radius:12px;
+            font-size:13px;
+            margin-bottom:18px;
+        }
+
+        .field{
+            margin-bottom:18px;
+        }
+
+        .field label{
+            display:block;
+            margin-bottom:7px;
+            font-size:13px;
+            font-weight:600;
+            color:#374151;
+        }
+
+        .field input{
+            width:100%;
+            padding:13px 14px;
+            border:1px solid #d1d5db;
+            border-radius:12px;
+            font-size:14px;
+            color:#111827;
+            background:#f9fafb;
+            transition:all 0.2s ease;
+        }
+
+        .field input:focus{
+            outline:none;
+            border-color:#2563eb;
+            background:#ffffff;
+            box-shadow:0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
+
+        .password-wrap{
+            position:relative;
+        }
+
+        .password-wrap input{
+            padding-right:90px;
+        }
+
+        .toggle-password{
+            position:absolute;
+            right:12px;
+            top:50%;
+            transform:translateY(-50%);
+            border:none;
+            background:transparent;
+            color:#2563eb;
+            font-size:13px;
+            font-weight:600;
+            cursor:pointer;
+            padding:4px 6px;
+        }
+
+        .login-btn{
+            width:100%;
+            padding:13px;
+            background:linear-gradient(135deg, #2563eb, #1d4ed8);
+            border:none;
+            color:white;
+            font-size:15px;
+            font-weight:700;
+            border-radius:12px;
+            cursor:pointer;
+            transition:transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow:0 10px 20px rgba(37, 99, 235, 0.22);
+        }
+
+        .login-btn:hover{
+            transform:translateY(-1px);
+            box-shadow:0 14px 24px rgba(37, 99, 235, 0.28);
+        }
+
+        .helper-text{
+            text-align:center;
+            margin-top:16px;
+            font-size:13px;
+            color:#6b7280;
+            line-height:1.6;
+        }
+
+        .helper-text strong{
+            color:#111827;
+        }
+
+        @media (max-width: 900px){
+            .login-wrapper{
+                grid-template-columns:1fr;
+            }
+
+            .login-left{
+                padding:34px 28px;
+            }
+
+            .login-right{
+                padding:34px 24px 40px;
+            }
+
+            .login-left h1{
+                font-size:30px;
+            }
+        }
+
+        @media (max-width: 700px){
+            .navbar{
+                padding:16px 20px;
+                flex-direction:column;
+                gap:12px;
+            }
+
+            .page-wrap{
+                padding:20px 14px;
+            }
+
+            .login-left,
+            .login-right{
+                padding:24px 18px;
+            }
+
+            .form-top h2{
+                font-size:26px;
+            }
+
+            .login-left h1{
+                font-size:26px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">AI Sales Lead Scoring Platform</div>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </div>
+    </div>
+
+    <div class="page-wrap">
+        <div class="login-wrapper">
+
+            <div class="login-left">
+                <div>
+                    <div class="brand-badge">AI Powered CRM Platform</div>
+
+                    <h1>Welcome to the AI Sales Lead Scoring Platform</h1>
+
+                    <p>
+                        Access your dashboard to manage leads, monitor conversion analytics,
+                        and help your sales team focus on the most promising opportunities.
+                    </p>
+
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <h3>Lead Scoring</h3>
+                            <p>Rank leads using AI-generated insights.</p>
+                        </div>
+
+                        <div class="feature-item">
+                            <h3>Role-Based Dashboards</h3>
+                            <p>Separate views for admin and sales users.</p>
+                        </div>
+
+                        <div class="feature-item">
+                            <h3>Sales Analytics</h3>
+                            <p>Track performance, pipeline, and conversion rate.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login-left-footer">
+                    © 2026 AI Sales Lead Scoring Platform
+                </div>
+            </div>
+
+            <div class="login-right">
+                <div class="form-box">
+                    <div class="form-top">
+                        <h2>Login</h2>
+                        <p>Sign in to access your lead management dashboard.</p>
+                    </div>
+
+                    {% if error %}
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="field">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="password">Password</label>
+                            <div class="password-wrap">
+                                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword()">Show</button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="login-btn">Login</button>
+                    </form>
+
+                    <div class="helper-text">
+                        Secure access for <strong>Admin</strong> and <strong>Sales Users</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const toggleBtn = document.querySelector(".toggle-password");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleBtn.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                toggleBtn.textContent = "Show";
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Lead | AI Sales Lead Scoring Platform</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Segoe UI", sans-serif;
+        }
+
+        body{
+            background:linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+            color:#1f2937;
+        }
+
+        .layout{
+            display:flex;
+            min-height:100vh;
+        }
+
+        .sidebar{
+            width:250px;
+            background:#0f172a;
+            color:white;
+            padding:28px 18px;
+            flex-shrink:0;
+            box-shadow:4px 0 18px rgba(0,0,0,0.08);
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:34px;
+            font-size:22px;
+            line-height:1.5;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar li{
+            margin:12px 0;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:12px 14px;
+            border-radius:10px;
+            transition:0.3s ease;
+            font-size:14px;
+        }
+
+        .sidebar a:hover{
+            background:#1e293b;
+        }
+
+        .main{
+            flex:1;
+            padding:30px;
+        }
+
+        .topbar{
+            background:white;
+            padding:24px;
+            border-radius:18px;
+            box-shadow:0 8px 24px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+            margin-bottom:24px;
+        }
+
+        .topbar h1{
+            font-size:30px;
+            color:#0f172a;
+            margin-bottom:6px;
+        }
+
+        .topbar p{
+            color:#64748b;
+            font-size:15px;
+        }
+
+        .form-card{
+            background:white;
+            border-radius:20px;
+            padding:28px;
+            box-shadow:0 10px 26px rgba(15,23,42,0.08);
+            border:1px solid #e5e7eb;
+        }
+
+        .form-card h2{
+            font-size:24px;
+            color:#0f172a;
+            margin-bottom:22px;
+        }
+
+        .info-strip{
+            background:linear-gradient(135deg, #eff6ff, #eef2ff);
+            border:1px solid #dbeafe;
+            border-radius:16px;
+            padding:16px 18px;
+            margin-bottom:22px;
+        }
+
+        .info-strip p{
+            font-size:14px;
+            color:#475569;
+            line-height:1.7;
+        }
+
+        .form-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:18px;
+        }
+
+        .form-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        .form-group.full{
+            grid-column:1 / -1;
+        }
+
+        .form-group label{
+            margin-bottom:7px;
+            font-size:14px;
+            font-weight:600;
+            color:#374151;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select{
+            width:100%;
+            padding:13px 14px;
+            border:1px solid #d1d5db;
+            border-radius:12px;
+            font-size:14px;
+            background:#f9fafb;
+            transition:0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus{
+            outline:none;
+            border-color:#2563eb;
+            background:white;
+            box-shadow:0 0 0 4px rgba(37,99,235,0.12);
+        }
+
+        .form-group textarea{
+            resize:vertical;
+            min-height:110px;
+        }
+
+        .readonly-note{
+            font-size:12px;
+            color:#6b7280;
+            margin-top:6px;
+        }
+
+        .button-row{
+            display:flex;
+            gap:12px;
+            margin-top:24px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            padding:13px 18px;
+            border:none;
+            border-radius:12px;
+            font-size:14px;
+            font-weight:700;
+            text-decoration:none;
+            cursor:pointer;
+            transition:0.3s ease;
+        }
+
+        .btn-primary{
+            background:#2563eb;
+            color:white;
+        }
+
+        .btn-primary:hover{
+            background:#1d4ed8;
+        }
+
+        .btn-secondary{
+            background:#e5e7eb;
+            color:#111827;
+        }
+
+        .btn-secondary:hover{
+            background:#d1d5db;
+        }
+
+        @media (max-width:900px){
+            .layout{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                width:100%;
+            }
+
+            .form-grid{
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media (max-width:650px){
+            .main{
+                padding:18px;
+            }
+
+            .topbar h1{
+                font-size:24px;
+            }
+
+            .form-card{
+                padding:20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar">
+        <h2>AI Sales Lead Scoring Platform</h2>
+        <ul>
+            <li><a href="{% url 'register' %}">Add Lead</a></li>
+            <li><a href="{% url 'sales_dashboard' %}">Sales Dashboard</a></li>
+            <li><a href="{% url 'bulk_import_leads' %}">Bulk Import</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Edit Lead</h1>
+            <p>Update lead details and CRM status for better sales tracking.</p>
+        </div>
+
+        <div class="form-card">
+            <h2>Edit Lead Information</h2>
+
+            <div class="info-strip">
+                <p>
+                    You can update lead details and CRM status here. The AI score and conversion probability are kept as originally generated unless you choose to recalculate them in a separate workflow.
+                </p>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" value="{{ lead.name }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ lead.email }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" name="company" value="{{ lead.company }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" name="phone" value="{{ lead.phone }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Source</label>
+                        <input type="text" name="source" value="{{ lead.source }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Industry</label>
+                        <input type="text" name="industry" value="{{ lead.industry }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Budget</label>
+                        <input type="number" name="budget" value="{{ lead.budget }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Company Size</label>
+                        <input type="number" name="company_size" value="{{ lead.company_size }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Interaction Score</label>
+                        <input type="number" name="interaction_score" value="{{ lead.interaction_score }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CRM Status</label>
+                        <select name="crm_status">
+                            <option value="New" {% if lead.crm_status == "New" %}selected{% endif %}>New</option>
+                            <option value="Contacted" {% if lead.crm_status == "Contacted" %}selected{% endif %}>Contacted</option>
+                            <option value="Qualified" {% if lead.crm_status == "Qualified" %}selected{% endif %}>Qualified</option>
+                            <option value="Converted" {% if lead.crm_status == "Converted" %}selected{% endif %}>Converted</option>
+                            <option value="Lost" {% if lead.crm_status == "Lost" %}selected{% endif %}>Lost</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Interaction History</label>
+                        <textarea name="interaction_history">{{ lead.interaction_history }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lead Score</label>
+                        <input type="text" value="{{ lead.lead_score }}" readonly>
+                        <div class="readonly-note">Read-only AI generated value</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Conversion Probability</label>
+                        <input type="text" value="{{ lead.conversion_probability|floatformat:2 }}" readonly>
+                        <div class="readonly-note">Read-only AI generated value</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>AI Status</label>
+                        <input type="text" value="{{ lead.status }}" readonly>
+                        <div class="readonly-note">Read-only AI generated status</div>
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="btn btn-primary">Update Lead</button>
+                    <a href="{% url 'sales_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
