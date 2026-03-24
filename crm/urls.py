@@ -24,4 +24,7 @@ urlpatterns = [
     path("api/leads/<int:lead_id>/", views.api_lead_detail, name="api_lead_detail"),
     path("create-sales-user/", views.create_sales_user, name="create_sales_user"),
     path("contact-messages/", views.contact_messages, name="contact_messages"),
+    path("login/", views.login_view, name="login"),
+    path("verify-otp/", views.verify_otp, name="verify_otp"),
+    path("resend-otp/", views.resend_otp, name="resend_otp"),
 ]

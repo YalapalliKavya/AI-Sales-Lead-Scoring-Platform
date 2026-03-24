@@ -24,7 +24,6 @@
             min-height:100vh;
         }
 
-        /* SIDEBAR */
         .sidebar{
             width:260px;
             background:linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
@@ -38,7 +37,6 @@
             text-align:center;
             margin-bottom:34px;
             font-size:22px;
-            line-height:1.5;
             font-weight:700;
         }
 
@@ -58,15 +56,12 @@
             border-radius:12px;
             transition:0.3s ease;
             font-size:14px;
-            font-weight:500;
         }
 
         .sidebar a:hover{
             background:rgba(255,255,255,0.08);
-            transform:translateX(3px);
         }
 
-        /* MAIN */
         .main{
             flex:1;
             padding:30px;
@@ -84,79 +79,29 @@
             border-radius:24px;
             overflow:hidden;
             box-shadow:0 20px 50px rgba(15,23,42,0.12);
-            border:1px solid #e5e7eb;
         }
 
-        /* LEFT PANEL */
         .left-panel{
             background:linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
             color:white;
-            padding:42px 36px;
-            display:flex;
-            flex-direction:column;
-            justify-content:space-between;
-        }
-
-        .brand-badge{
-            display:inline-block;
-            padding:8px 14px;
-            border-radius:999px;
-            background:rgba(255,255,255,0.12);
-            border:1px solid rgba(255,255,255,0.15);
-            font-size:12px;
-            letter-spacing:0.4px;
-            margin-bottom:20px;
+            padding:42px;
         }
 
         .left-panel h1{
-            font-size:34px;
-            line-height:1.25;
+            font-size:32px;
             margin-bottom:16px;
         }
 
         .left-panel p{
-            color:rgba(255,255,255,0.85);
-            line-height:1.8;
             font-size:15px;
+            line-height:1.7;
         }
 
-        .feature-list{
-            margin-top:28px;
-            display:grid;
-            gap:14px;
-        }
-
-        .feature-item{
-            background:rgba(255,255,255,0.08);
-            border:1px solid rgba(255,255,255,0.10);
-            border-radius:14px;
-            padding:14px 16px;
-        }
-
-        .feature-item h3{
-            font-size:15px;
-            margin-bottom:4px;
-        }
-
-        .feature-item p{
-            font-size:13px;
-            color:rgba(255,255,255,0.78);
-            line-height:1.6;
-        }
-
-        .left-footer{
-            margin-top:28px;
-            font-size:13px;
-            color:rgba(255,255,255,0.72);
-        }
-
-        /* RIGHT PANEL */
         .right-panel{
-            padding:42px 36px;
+            padding:42px;
             display:flex;
             align-items:center;
             justify-content:center;
-            background:#ffffff;
         }
 
         .form-box{
@@ -165,133 +110,73 @@
         }
 
         .form-box h2{
-            font-size:30px;
-            color:#0f172a;
-            margin-bottom:8px;
+            font-size:28px;
+            margin-bottom:10px;
         }
 
-        .form-box .subtitle{
-            color:#64748b;
+        .subtitle{
             font-size:14px;
-            line-height:1.7;
-            margin-bottom:24px;
+            color:#64748b;
+            margin-bottom:20px;
         }
 
         .form-group{
-            margin-bottom:18px;
+            margin-bottom:16px;
         }
 
         .form-group label{
-            display:block;
-            margin-bottom:7px;
             font-size:14px;
             font-weight:600;
-            color:#374151;
         }
 
         .form-group input{
             width:100%;
-            padding:13px 14px;
-            border:1px solid #d1d5db;
-            border-radius:12px;
-            font-size:14px;
-            background:#f9fafb;
-            transition:0.2s ease;
-        }
-
-        .form-group input:focus{
-            outline:none;
-            border-color:#2563eb;
-            background:#ffffff;
-            box-shadow:0 0 0 4px rgba(37,99,235,0.12);
+            padding:12px;
+            margin-top:6px;
+            border:1px solid #ccc;
+            border-radius:10px;
         }
 
         .submit-btn{
             width:100%;
-            padding:13px;
-            background:linear-gradient(135deg, #2563eb, #1d4ed8);
+            padding:12px;
+            background:#2563eb;
             color:white;
             border:none;
-            border-radius:12px;
-            font-size:15px;
-            font-weight:700;
+            border-radius:10px;
             cursor:pointer;
-            transition:0.3s ease;
-            box-shadow:0 10px 20px rgba(37,99,235,0.22);
+            margin-top:10px;
         }
 
         .submit-btn:hover{
-            background:linear-gradient(135deg, #1d4ed8, #1e40af);
-            transform:translateY(-1px);
+            background:#1d4ed8;
         }
 
         .message{
-            margin-top:16px;
-            padding:12px 14px;
-            border-radius:12px;
-            font-size:14px;
+            margin-top:15px;
+            padding:10px;
+            border-radius:10px;
             text-align:center;
-            font-weight:600;
         }
 
         .success{
             background:#dcfce7;
             color:#166534;
-            border:1px solid #bbf7d0;
         }
 
         .error{
             background:#fee2e2;
             color:#991b1b;
-            border:1px solid #fecaca;
         }
 
         .back-link{
             display:block;
-            margin-top:18px;
+            margin-top:15px;
             text-align:center;
-            text-decoration:none;
             color:#2563eb;
-            font-size:14px;
-            font-weight:600;
+            text-decoration:none;
         }
 
-        .back-link:hover{
-            text-decoration:underline;
-        }
-
-        @media (max-width: 1000px){
-            .layout{
-                flex-direction:column;
-            }
-
-            .sidebar{
-                width:100%;
-            }
-
-            .main{
-                padding:18px;
-            }
-
-            .page-wrapper{
-                grid-template-columns:1fr;
-            }
-
-            .left-panel,
-            .right-panel{
-                padding:28px 22px;
-            }
-
-            .left-panel h1{
-                font-size:28px;
-            }
-        }
-
-        @media (max-width: 520px){
-            .form-box h2{
-                font-size:26px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -302,9 +187,9 @@
     <div class="sidebar">
         <h2>AI Sales Lead Scoring Platform</h2>
         <ul>
-            <li><a href="{% url 'admin_dashboard' %}">CRM Analytics Dashboard</a></li>
+            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
             <li><a href="{% url 'create_sales_user' %}">Add Sales User</a></li>
-            <li><a href="{% url 'contact_messages' %}">Contact Messages</a></li>
+            <li><a href="{% url 'contact_messages' %}">Messages</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
         </ul>
     </div>
@@ -313,44 +198,21 @@
     <div class="main">
         <div class="page-wrapper">
 
+            <!-- LEFT -->
             <div class="left-panel">
-                <div>
-                    <div class="brand-badge">Admin User Management</div>
-
-                    <h1>Create Sales Users for the CRM Platform</h1>
-
-                    <p>
-                        Add new sales users to the AI Sales Lead Scoring Platform and provide them access to role-based lead management and dashboard features.
-                    </p>
-
-                    <div class="feature-list">
-                        <div class="feature-item">
-                            <h3>Role-Based Access</h3>
-                            <p>Create dedicated sales accounts with restricted dashboard and lead access.</p>
-                        </div>
-
-                        <div class="feature-item">
-                            <h3>Team Expansion</h3>
-                            <p>Support multiple sales users for better lead assignment and performance tracking.</p>
-                        </div>
-
-                        <div class="feature-item">
-                            <h3>Admin Control</h3>
-                            <p>Manage users centrally and monitor team activity from the admin dashboard.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="left-footer">
-                    © 2026 AI Sales Lead Scoring Platform
-                </div>
+                <h1>Create Sales Users</h1>
+                <p>
+                    Add new sales users to access CRM dashboards and manage leads efficiently.
+                </p>
             </div>
 
+            <!-- RIGHT -->
             <div class="right-panel">
                 <div class="form-box">
-                    <h2>Create Sales User</h2>
+
+                    <h2>Create User</h2>
                     <p class="subtitle">
-                        Enter the username and password to create a new sales account.
+                        Enter username, email, and password. Email is used for OTP verification.
                     </p>
 
                     <form method="POST">
@@ -358,12 +220,20 @@
 
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" placeholder="Enter username" required>
+                            <input type="text" name="username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" required>
+                            <small style="font-size:12px;color:#64748b;">
+                                OTP will be sent to this email
+                            </small>
                         </div>
 
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" name="password" placeholder="Enter password" required>
+                            <input type="password" name="password" required>
                         </div>
 
                         <button type="submit" class="submit-btn">Create User</button>
@@ -375,7 +245,10 @@
                         </div>
                     {% endfor %}
 
-                    <a href="{% url 'admin_dashboard' %}" class="back-link">← Back to Dashboard</a>
+                    <a href="{% url 'admin_dashboard' %}" class="back-link">
+                        ← Back to Dashboard
+                    </a>
+
                 </div>
             </div>
 

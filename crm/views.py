@@ -6,6 +6,9 @@ from django.contrib import messages
 from django.db.models import Count, Avg, Q
 from django.db import transaction
 
+import random
+from django.core.mail import send_mail
+
 from .models import Lead, InteractionLog, ContactMessage
 from .serializers import LeadSerializer
 from ml_engine.predict import predict_lead
@@ -450,21 +453,25 @@ def create_sales_user(request):
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "").strip()
+        email = request.POST.get("email", "").strip()
 
-        if not username or not password:
-            messages.error(request, "Username and password are required")
+        if not username or not password or not email:
+            messages.error(request, "All fields are required")
+
         elif User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
+
         else:
             user = User.objects.create_user(
                 username=username,
-                password=password
+                password=password,
+                email=email
             )
             user.is_staff = False
             user.is_superuser = False
             user.save()
 
-            messages.success(request, "Sales user created successfully")
+            messages.success(request, "Sales user created successfully with email")
             return redirect("create_sales_user")
 
     return render(request, "create_sales_user.html")
@@ -495,3 +502,83 @@ def contact(request):
 def contact_messages(request):
     messages_list = ContactMessage.objects.all().order_by("-created_at")
     return render(request, "contact_messages.html", {"messages_list": messages_list})
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("redirect_dashboard")
+
+    error = None
+
+    if request.method == "POST":
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "").strip()
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            # Generate OTP
+            otp = random.randint(100000, 999999)
+
+            # Store in session
+            request.session['otp'] = otp
+            request.session['user_id'] = user.id
+
+            # Send OTP to email
+            send_mail(
+                'Your OTP Code',
+                f'Your OTP is {otp}',
+                'kavyayalapalli@gmailcom',
+                [user.email],
+                fail_silently=False,
+            )
+
+            return redirect("verify_otp")
+
+        else:
+            error = "Invalid username or password"
+
+    return render(request, "login.html", {"error": error})
+
+def verify_otp(request):
+    error = None
+
+    if request.method == "POST":
+        entered_otp = request.POST.get("otp")
+        session_otp = request.session.get("otp")
+        user_id = request.session.get("user_id")
+
+        if str(entered_otp) == str(session_otp):
+            user = User.objects.get(id=user_id)
+            login(request, user)
+
+            # Clear OTP after login
+            request.session.pop('otp', None)
+
+            return redirect("redirect_dashboard")
+        else:
+            error = "Invalid OTP"
+
+    return render(request, "verify_otp.html", {"error": error})
+
+from django.conf import settings
+
+def resend_otp(request):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("login")
+
+    user = User.objects.get(id=user_id)
+
+    otp = random.randint(100000, 999999)
+    request.session['otp'] = otp
+
+    send_mail(
+        'Your New OTP Code',
+        f'Your new OTP is {otp}',
+        settings.EMAIL_HOST_USER,
+        [user.email],
+        fail_silently=False,
+    )
+
+    return redirect("verify_otp")
