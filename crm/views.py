@@ -528,7 +528,7 @@ def login_view(request):
             send_mail(
                 'Your OTP Code',
                 f'Your OTP is {otp}',
-                'kavyayalapalli@gmailcom',
+                'your_email@gmail.com',
                 [user.email],
                 fail_silently=False,
             )
