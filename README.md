@@ -152,6 +152,10 @@ AI-Sales-Lead-Scoring-Platform/
 ### 📬 Contact Message
 <img width="1905" height="895" alt="Contact_Message" src="https://github.com/user-attachments/assets/146acda7-909a-4869-aab3-eeb7098f037b" />
 
+### Test File
+[leads_sample (1).xlsx](https://github.com/user-attachments/files/26273924/leads_sample.1.xlsx)
+
+
 ##Author
 -Kavya Yalapalli
 -GitHub: YalapalliKavya
