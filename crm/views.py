@@ -461,17 +461,18 @@ def create_sales_user(request):
         elif User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
 
+        elif User.objects.filter(email=email).exists():   # ✅ NEW
+            messages.error(request, "Email already exists")
+
         else:
             user = User.objects.create_user(
                 username=username,
                 password=password,
                 email=email
             )
-            user.is_staff = False
-            user.is_superuser = False
             user.save()
 
-            messages.success(request, "Sales user created successfully with email")
+            messages.success(request, "User created successfully")
             return redirect("create_sales_user")
 
     return render(request, "create_sales_user.html")
